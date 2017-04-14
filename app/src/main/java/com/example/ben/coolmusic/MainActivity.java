@@ -44,7 +44,7 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-public class MainActivity extends AppCompatActivity implements AIListener{
+public class MainActivity extends AppCompatActivity implements AIListener {
 
     private AIService aiService;
     private EditText contextEditText;
@@ -84,16 +84,42 @@ public class MainActivity extends AppCompatActivity implements AIListener{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onListeningStarted() {
 
-    private void initService(final LanguageConfig selectedLanguage) { 
-        final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(selectedLanguage.getLanguageCode()); 
-        final AIConfiguration config = new AIConfiguration(selectedLanguage.getAccessToken(), lang, AIConfiguration.RecognitionEngine.System);  
-        if (aiService != null) { 
-            aiService.pause(); 
-        }  
-        aiService = AIService.getService(this, config); 
-        aiService.setListener(this); 
-    } 
+    }
+
+    @Override
+    public void onListeningFinished() {
+
+    }
+
+    @Override
+    public void onListeningCanceled() {
+
+    }
+
+    @Override
+    public void onError(AIError error) {
+
+    }
+
+    @Override
+    public void onAudioLevel(float level) {
+
+    }
+
+    private void initService(final LanguageConfig selectedLanguage) {
+        final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(selectedLanguage.getLanguageCode());
+        final AIConfiguration config = new AIConfiguration(selectedLanguage.getAccessToken(), lang, AIConfiguration.RecognitionEngine.System);
+
+        if(aiService != null) {
+            aiService.pause();
+        }
+
+        aiService = AIService.getService(this, config);
+        aiService.setListener(this);
+    }
 
     public void startRecognition(final View view) {
         final String contextString = String.valueOf(contextEditText.getText());
