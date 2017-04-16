@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements AIListener {
     private EditText contextEditText;
     private TextView resultTextView;
 
-
     private Player mPlayer;
     private Gson gson = GsonFactory.getGson();
 

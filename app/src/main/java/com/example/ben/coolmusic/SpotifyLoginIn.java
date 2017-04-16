@@ -28,7 +28,7 @@ public class SpotifyLoginIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_spotifyloginin);
 
         accountEditText = (EditText)findViewById(R.id.accountEditText);
         passwordEditText = (EditText)findViewById(R.id.passwordEditText);

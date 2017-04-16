@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CoolMusic</string>
+    <string name="spotify_login_activity">Spotify Login</string>
 </resources>

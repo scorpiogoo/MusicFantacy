@@ -19,6 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity 
+            android:name="com.example.ben.coolmusic.SpotifyLoginIn"
+            android:label="@string/spotify_login_activity"
+            />
+
     </application>
 
 </manifest>
