@@ -61,11 +61,10 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        contextEditText = (EditText)findViewById(R.id.contextEditText);
         resultTextView = (TextView)findViewById(R.id.resultTextView);
 
-        final AIConfiguration config = new AIConfiguration("771661a648eb40d2b123f8fea1e237ff",
-                AIConfiguration.SupportedLanguages.English,
-                AIConfiguration.RecognitionEngine.System);
+        initService();
     }
 
     @Override
@@ -109,13 +108,11 @@ public class MainActivity extends AppCompatActivity implements AIListener {
 
     }
 
-    private void initService(final LanguageConfig selectedLanguage) {
-        final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(selectedLanguage.getLanguageCode());
-        final AIConfiguration config = new AIConfiguration(selectedLanguage.getAccessToken(), lang, AIConfiguration.RecognitionEngine.System);
-
-        if(aiService != null) {
-            aiService.pause();
-        }
+    private void initService() {
+//        final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(selectedLanguage.getLanguageCode());
+        final AIConfiguration config = new AIConfiguration("771661a648eb40d2b123f8fea1e237ff",
+                AIConfiguration.SupportedLanguages.English,
+                AIConfiguration.RecognitionEngine.System);
 
         aiService = AIService.getService(this, config);
         aiService.setListener(this);
