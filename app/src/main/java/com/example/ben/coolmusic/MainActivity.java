@@ -1,5 +1,6 @@
 package com.example.ben.coolmusic;
 
+import android.Manifest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -33,6 +34,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+
 //import com.spotify.sdk.android.authentication.AuthenticationClient;
 //import com.spotify.sdk.android.authentication.AuthenticationRequest;
 //import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -44,17 +48,17 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-public class MainActivity extends AppCompatActivity implements AIListener {
+public class MainActivity extends AppCompatActivity implements AIListener, EasyPermissions.PermissionCallbacks {
 
     private AIService aiService;
     private EditText contextEditText;
     private TextView resultTextView;
+    private final int RECORD_AUDIO_AND_INTERNET = 17;
 
     private Player mPlayer;
     private Gson gson = GsonFactory.getGson();
 
     public static final String TAG = MainActivity.class.getName();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,24 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         resultTextView = (TextView)findViewById(R.id.resultTextView);
 
         initService();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
     }
 
     @Override
@@ -117,7 +139,23 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         aiService.setListener(this);
     }
 
+    @AfterPermissionGranted(RECORD_AUDIO_AND_INTERNET)
     public void startRecognition(final View view) {
+
+        String[] perms = {
+                Manifest.permission.RECORD_AUDIO
+//                Manifest.permission.INTERNET
+        };
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            startRecognizing(view);
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(this, getString(R.string.permissions_rationale),
+                    RECORD_AUDIO_AND_INTERNET, perms);
+        }
+    }
+
+    private void startRecognizing(final View view) {
         final String contextString = String.valueOf(contextEditText.getText());
         if (TextUtils.isEmpty(contextString)) {
             aiService.startListening();
@@ -126,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements AIListener {
             final RequestExtras requestExtras = new RequestExtras(contexts, null);
             aiService.startListening(requestExtras);
         }
-
     }
 
     public void stopRecognition(final View view){

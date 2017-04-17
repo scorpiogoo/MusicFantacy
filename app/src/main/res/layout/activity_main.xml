@@ -44,7 +44,7 @@
         android:id="@+id/button"
         android:layout_width="143dp"
         android:layout_height="48dp"
-        android:onClick="startRecognition"
+        android:onClick="stopRecognition"
         android:text="Stop Listening"
         app:layout_constraintLeft_toRightOf="@+id/buttonListen"
         app:layout_constraintRight_toRightOf="parent"
