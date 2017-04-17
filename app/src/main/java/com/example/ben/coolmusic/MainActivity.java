@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
 
     private void initService() {
 //        final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(selectedLanguage.getLanguageCode());
-        final AIConfiguration config = new AIConfiguration("771661a648eb40d2b123f8fea1e237ff",
+        final AIConfiguration config = new AIConfiguration("9e27dbcf8e22448c9fdb81829b4df019",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
